@@ -7,9 +7,6 @@ on:
     # idempotency, only create one new daily note, than run exactly once a day
     # and possibly fail to generate the daily note.
     - cron: '0 * * * *' # every hour
-  pull_request: # TODO: remove (for testing)
-    branches:
-      - main
 
 jobs:
   daily:
@@ -19,15 +16,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT }}
-          # TODO: remove (for testing)
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Metadata
         id: metadata
         run: |
-          shopt -s expand_aliases # TODO: remove (for testing)
-          alias date="date -d '+3 day'" # TODO: remove (for testing)
           path_year="$(date +%Y)"
           path_month="$path_year/$(date +%B)"
           path_full="$path_month/$(date +%d).md"
@@ -45,8 +37,6 @@ jobs:
           PATH_FULL: ${{ steps.metadata.outputs.path_full }}
           TITLE: ${{ steps.metadata.outputs.title }}
         run: |
-          shopt -s expand_aliases # TODO: remove (for testing)
-          alias date="date -d '+3 day'" # TODO: remove (for testing)
           if [[ $(date +%A) == "Saturday" ]]; then
             SHABBAT=$(cat << EOF
           ### $(curl https://www.hebcal.com/hebcal\?v\=1\&cfg\=json\&s\=on\&year\=now\&start\=$(date +%Y)-$(date +%m)-$(date +%d)\&end\=$(date +%Y)-$(date +%m)-$(date +%d)\&geo\=none\&s\=on | jq -r '.items[].title')
