@@ -12,5 +12,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.PAT }}
           TARGET_PATHS: '.'
-          MAX_HEADER_LEVEL: 5
+          MAX_HEADER_LEVEL: 6
           CHECK_ONLY_DEFAULT_BRANCH: true
