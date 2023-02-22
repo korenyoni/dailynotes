@@ -17,3 +17,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.PAT }}
           TARGET_PATHS: '*.md'
+          CHECK_ONLY_DEFAULT_BRANCH: true
