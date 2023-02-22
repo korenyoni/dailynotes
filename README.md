@@ -1,3 +1,11 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Daily Notes](#daily-notes)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Daily Notes
 
 [![.github/workflows/daily-note.yaml](https://github.com/korenyoni/dailynotes/actions/workflows/daily-note.yaml/badge.svg?branch=main&event=schedule)](https://github.com/korenyoni/dailynotes/actions/workflows/daily-note.yaml)
