@@ -6,7 +6,8 @@ on:
     # I would prefer that the workflow runs once an hour, and by virtue of its
     # idempotency, only create one new daily note, than run exactly once a day
     # and possibly fail to generate the daily note.
-    - cron: '0 * * * *' # every hour
+    #- cron: '0 * * * *' # every hour
+    - cron: '*/5 * * * *' # every hour
 
 jobs:
   daily-note:
