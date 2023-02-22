@@ -1,4 +1,7 @@
 on:
+  pull_request: # TODO: remove
+    branches:
+      - main
   schedule:
     # - cron: '0 0 * * *' TODO: restore
     - cron: '*/5 * * * *' # TODO: remove (for testing)
@@ -11,34 +14,46 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT }}
+          # TODO: remove
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Metadata
         id: metadata
         run: |
-          path_parent="$(date +%Y)/$(date +%B)"
-          path_full="$directory/$(date +%d).md"
+          path_year="$(date +%Y)"
+          path_month="$path_year/$(date +%B)"
+          path_full="$path_month/$(date +%d).md"
           title="$(date +%A), $(date +%B) $(date +%d), $(date +%Y)"
 
-          echo path_parent=$path_parent >> $GITHUB_OUTPUT
+          echo path_year=$path_year>> $GITHUB_OUTPUT
+          echo path_month=$path_month>> $GITHUB_OUTPUT
           echo path_full=$path_full >> $GITHUB_OUTPUT
           echo title=$title >> $GITHUB_OUTPUT
           
       - name: Create Daily Note File (${{ steps.metadata.outputs.title }})
         env:
-          PATH_PARENT: ${{ steps.metadata.outputs.path_parent }}
+          PATH_YEAR: ${{ steps.metadata.outputs.path_year }}
+          PATH_MONTH: ${{ steps.metadata.outputs.path_month }}
           PATH_FULL: ${{ steps.metadata.outputs.path_full }}
           TITLE: ${{ steps.metadata.outputs.title }}
         run: |
-          # Create a folder for the current month and day, if it doesn't exist
-          mkdir -p $PATH_PARENT
+          EMPTY_NOTE=$(cat << EOF
+          # $TITLE
+          ![banner](https://picsum.photos/seed/$(date +%Y)-$(date +%B)-$(date +%d)/500/200)
+          > _"$(curl https://zenquotes.io/api/today | jq -r '.[].q')"_
+          <!-- START doctoc -->
+          <!-- END doctoc -->
+          <!--- TODO: fill me out, if you have time today --->
+          EOF
+          )
+
+          # Create parent dir for the daily note, if it doesn't exist
+          mkdir -p $(dirname $PATH_FULL)
+
           if [[ ! -f $PATH_FULL ]]; then
-            echo "Creating daily note: $PATH_FULL"
-            NOTE=$(cat <<EOF
-            # $TITLE
-            <!--- TODO: fill me out, if you have time today --->
-            EOF
-            )
-            echo "$NOTE" > $PATH_FULL
+            echo "Creating empty daily note: $PATH_FULL"
+            echo "$EMPTY_NOTE" > $PATH_FULL
           else 
             echo "Daily note already exists: $PATH_FULL"
           fi
