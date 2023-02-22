@@ -1,4 +1,4 @@
-# Field Notes
+# Daily Notes
 
 Day-to-day notes on the things I'm learning. I've been at this for more than a decade, but I'm still learning.
 
