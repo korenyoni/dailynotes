@@ -61,24 +61,24 @@ jobs:
           )
 
           # Create a README for the current year, if it doesn't exist
-          pushd $PATH_YEAR
+          cd $PATH_YEAR
           if [[ ! -f README.md ]]; then
             echo "Creating README for year $YEAR in $PATH_YEAR/README.md"
             echo "$README_YEAR" > README.md
           else 
             echo "README for year already exists: $PATH_YEAR/README.md"
           fi
-          popd
+          cd -
 
           # Create a README for the current month, if it doesn't exist
-          pushd $PATH_MONTH
+          cd $PATH_MONTH
           if [[ ! -f README.md ]]; then
             echo "Creating README for month $MONTH in $PATH_MONTH/README.md"
             echo "$README_MONTH" > README.md
           else 
             echo "README for month already exists: $PATH_MONTH/README.md"
           fi
-          popd
+          cd -
 
           mkdir -p $(dirname $PATH_FULL)
           if [[ ! -f $PATH_FULL ]]; then
