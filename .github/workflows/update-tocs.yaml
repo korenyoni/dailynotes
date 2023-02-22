@@ -14,3 +14,4 @@ jobs:
           TARGET_PATHS: '.'
           MAX_HEADER_LEVEL: 6
           CHECK_ONLY_DEFAULT_BRANCH: true
+          TARGET_BRANCH_PREFIX: main
