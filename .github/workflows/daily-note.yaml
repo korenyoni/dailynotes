@@ -37,6 +37,14 @@ jobs:
           PATH_FULL: ${{ steps.metadata.outputs.path_full }}
           TITLE: ${{ steps.metadata.outputs.title }}
         run: |
+          if [[ $(date +%A) == "Saturday" ]]; then
+            SHABBAT=$(cat << EOF
+          ### $(curl https://www.hebcal.com/hebcal\?v\=1\&cfg\=json\&s\=on\&year\=now\&start\=$(date +%Y)-$(date +%m)-$(date +%d)\&end\=$(date +%Y)-$(date +%m)-$(date +%d)\&geo\=none\&s\=on | jq -r '.items[].title')
+          :candle: :candle: :bread: :bread: :wine_glass:
+          EOF
+            )
+          fi
+
           EMPTY_NOTE=$(cat << EOF
           # $TITLE
           ![banner](https://picsum.photos/seed/$(date +%Y)-$(date +%B)-$(date +%d)/500/200)
@@ -44,6 +52,7 @@ jobs:
           <!-- START doctoc -->
           <!-- END doctoc -->
           ## Notes
+          $SHABBAT
           <!--- TODO: fill me out, if you have time today --->
           EOF
           )
