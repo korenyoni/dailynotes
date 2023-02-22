@@ -13,10 +13,3 @@ Topics of interest include:
 * Pentesting (things learned from CTFs)
 * Programming (most likely Golang, due to the CNCF ecosystem)
 * Anything else that comes up
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->

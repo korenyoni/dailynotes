@@ -38,50 +38,16 @@ jobs:
           PATH_FULL: ${{ steps.metadata.outputs.path_full }}
           TITLE: ${{ steps.metadata.outputs.title }}
         run: |
-          YEAR=$(date +%Y)
-          README_YEAR=$(cat << EOF
-          # $YEAR
-          <!-- START doctoc -->
-          <!-- END doctoc -->
-          EOF
-          )
-
-          MONTH=$(date +%B)
-          README_MONTH=$(cat << EOF
-          # $MONTH
-          <!-- START doctoc -->
-          <!-- END doctoc -->
-          EOF
-          )
-
           EMPTY_NOTE=$(cat << EOF
           # $TITLE
+          <!-- START doctoc -->
+          <!-- END doctoc -->
           <!--- TODO: fill me out, if you have time today --->
           EOF
           )
 
           # Create parent dir for the daily note, if it doesn't exist
           mkdir -p $(dirname $PATH_FULL)
-
-          # Create a README for the current year, if it doesn't exist
-          cd $PATH_YEAR
-          if [[ ! -f README.md ]]; then
-            echo "Creating README for year $YEAR in $PATH_YEAR/README.md"
-            echo "$README_YEAR" > README.md
-          else 
-            echo "README for year already exists: $PATH_YEAR/README.md"
-          fi
-          cd -
-
-          # Create a README for the current month, if it doesn't exist
-          cd $PATH_MONTH
-          if [[ ! -f README.md ]]; then
-            echo "Creating README for month $MONTH in $PATH_MONTH/README.md"
-            echo "$README_MONTH" > README.md
-          else 
-            echo "README for month already exists: $PATH_MONTH/README.md"
-          fi
-          cd -
 
           if [[ ! -f $PATH_FULL ]]; then
             echo "Creating empty daily note: $PATH_FULL"
@@ -95,8 +61,3 @@ jobs:
         with:
           message: 'Adding daily note for ${{ steps.metadata.outputs.title }}'
           add: '*.md'
-
-      - name: Update TOCs
-        uses: technote-space/toc-generator@v4
-        with:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
