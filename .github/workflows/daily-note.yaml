@@ -50,7 +50,7 @@ jobs:
           if [[ $(date +%A) == "Saturday" ]]; then
             SHABBAT=$(cat << EOF
           ### $(curl https://www.hebcal.com/hebcal\?v\=1\&cfg\=json\&s\=on\&year\=now\&start\=$(date +%Y)-$(date +%m)-$(date +%d)\&end\=$(date +%Y)-$(date +%m)-$(date +%d)\&geo\=none\&s\=on | jq -r '.items[].title')
-          :candle: :wine_glass: :bread: :wine_glass: :candle:
+          :candle: :candle: :bread: :bread: :wine_glass:
           EOF
             )
           fi
