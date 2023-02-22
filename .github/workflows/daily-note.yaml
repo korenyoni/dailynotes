@@ -21,41 +21,80 @@ jobs:
       - name: Metadata
         id: metadata
         run: |
-          path_parent="$(date +%Y)/$(date +%B)"
-          path_full="$directory/$(date +%d).md"
+          path_year="$(date +%Y)"
+          path_month="$path_year/$(date +%B)"
+          path_full="$path_month/$(date +%d).md"
           title="$(date +%A), $(date +%B) $(date +%d), $(date +%Y)"
 
-          echo path_parent=$path_parent >> $GITHUB_OUTPUT
-          echo path_full=$path_parent/$path_full >> $GITHUB_OUTPUT
+          echo path_year=$path_year>> $GITHUB_OUTPUT
+          echo path_month=$path_month>> $GITHUB_OUTPUT
+          echo path_full=$path_full >> $GITHUB_OUTPUT
           echo title=$title >> $GITHUB_OUTPUT
           
       - name: Create Daily Note File (${{ steps.metadata.outputs.title }})
         env:
-          PATH_PARENT: ${{ steps.metadata.outputs.path_parent }}
+          PATH_YEAR: ${{ steps.metadata.outputs.path_year }}
+          PATH_MONTH: ${{ steps.metadata.outputs.path_month }}
           PATH_FULL: ${{ steps.metadata.outputs.path_full }}
           TITLE: ${{ steps.metadata.outputs.title }}
         run: |
-          NOTE=$(cat << EOF
+          YEAR=$(date +%Y)
+          README_YEAR=$(cat << EOF
+          # $YEAR
+          <!-- START doctoc -->
+          <!-- END doctoc -->
+          EOF
+          )
+
+          MONTH=$(date +%B)
+          README_MONTH=$(cat << EOF
+          # $MONTH
+          <!-- START doctoc -->
+          <!-- END doctoc -->
+          EOF
+          )
+
+          EMPTY_NOTE=$(cat << EOF
           # $TITLE
           <!--- TODO: fill me out, if you have time today --->
           EOF
           )
-          # Create a folder for the current month and day, if it doesn't exist
-          mkdir -p $PATH_PARENT
+
+          # Create a README for the current year, if it doesn't exist
+          pushd $PATH_YEAR
+          if [[ ! -f README.md ]]; then
+            echo "Creating README for year $YEAR in $PATH_YEAR/README.md"
+            echo "$README_YEAR" > README.md
+          else 
+            echo "README for year already exists: $PATH_YEAR/README.md"
+          fi
+          popd
+
+          # Create a README for the current month, if it doesn't exist
+          pushd $PATH_MONTH
+          if [[ ! -f README.md ]]; then
+            echo "Creating README for month $MONTH in $PATH_MONTH/README.md"
+            echo "$README_MONTH" > README.md
+          else 
+            echo "README for month already exists: $PATH_MONTH/README.md"
+          fi
+          popd
+
+          mkdir -p $(dirname $PATH_FULL)
           if [[ ! -f $PATH_FULL ]]; then
-            echo "Creating daily note: $PATH_FULL"
-            echo "$NOTE" > $PATH_FULL
+            echo "Creating empty daily note: $PATH_FULL"
+            echo "$EMPTY_NOTE" > $PATH_FULL
           else 
             echo "Daily note already exists: $PATH_FULL"
           fi
-
-      - name: Update TOCs
-        uses: technote-space/toc-generator@v4
-        with:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
           message: 'Adding daily note for ${{ steps.metadata.outputs.title }}'
           add: '*.md'
+
+      - name: Update TOCs
+        uses: technote-space/toc-generator@v4
+        with:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
