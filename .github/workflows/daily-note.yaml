@@ -49,6 +49,9 @@ jobs:
             echo "Daily note already exists: $PATH_FULL"
           fi
 
+      - name: Update TOCs
+        uses: technote-space/toc-generator@v4
+
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
