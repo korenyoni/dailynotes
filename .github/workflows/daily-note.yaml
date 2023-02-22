@@ -1,9 +1,5 @@
 on:
-  pull_request: # TODO: remove
-    branches:
-      - main
   schedule:
-    # - cron: '0 0 * * *' TODO: restore
     - cron: '*/5 * * * *' # TODO: remove (for testing)
 
 jobs:
@@ -14,9 +10,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT }}
-          # TODO: remove
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Metadata
         id: metadata
@@ -44,6 +37,7 @@ jobs:
           > _"$(curl https://zenquotes.io/api/today | jq -r '.[].q')"_
           <!-- START doctoc -->
           <!-- END doctoc -->
+          ## Notes
           <!--- TODO: fill me out, if you have time today --->
           EOF
           )
