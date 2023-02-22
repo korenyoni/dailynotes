@@ -75,6 +75,7 @@ jobs:
           add: '*.md'
 
   update-tocs:
+    needs: daily-note
     runs-on: ubuntu-latest
     steps:
       - name: Update TOCs
