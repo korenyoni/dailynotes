@@ -9,7 +9,7 @@ on:
     - cron: '0 * * * *' # every hour
 
 jobs:
-  daily:
+  daily-note:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -72,3 +72,14 @@ jobs:
         with:
           message: 'Adding daily note for ${{ steps.metadata.outputs.title }}'
           add: '*.md'
+
+  update-tocs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update TOCs
+        uses: technote-space/toc-generator@v4
+        with:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          TARGET_PATHS: '.'
+          MAX_HEADER_LEVEL: 6
+          CHECK_ONLY_DEFAULT_BRANCH: true
