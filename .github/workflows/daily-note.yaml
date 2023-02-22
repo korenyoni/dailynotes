@@ -1,0 +1,47 @@
+on:
+  schedule:
+    # - cron: '0 0 * * *' TODO: restore
+    - cron: '*/5 * * * *' # TODO: remove (for testing)
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+
+      - name: Metadata
+        id: metadata
+        run: |
+          path_parent=$(date +%Y)/$(date +%B)
+          path_full=$directory/$(date +%d).md
+          title=$(date +%A), $(date +%B) $(date +%d), $(date +%Y)
+
+          echo path_parent=$path_parent > $GITHUB_OUTPUT
+          echo path_full=$path_full >> $GITHUB_OUTPUT
+          echo title=$title >> $GITHUB_OUTPUT
+          
+      - name: Create Daily Note File (${{ steps.metadata.outputs.title }})
+        env:
+          PATH_PARENT: ${{ steps.metadata.outputs.path_parent }}
+          PATH_FULL: ${{ steps.metadata.outputs.path_full }}
+          TITLE: ${{ steps.metadata.outputs.title }}
+        run: |
+          # Create a folder for the current month and day, if it doesn't exist
+          mkdir -p $PATH_PARENT
+          if [[ ! -f $PATH_FULL ]]; then
+            echo "Creating daily note: $PATH_FULL"
+            cat << EOF > $PATH_FULL
+            # $TITLE
+            EOF
+          else 
+            echo "Daily note already exists: $PATH_FULL"
+          fi
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Adding daily note for ${{ steps.metadata.outputs.title }}'
+          add: '*.md'
