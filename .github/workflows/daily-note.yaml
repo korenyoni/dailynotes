@@ -26,7 +26,7 @@ jobs:
           title="$(date +%A), $(date +%B) $(date +%d), $(date +%Y)"
 
           echo path_parent=$path_parent >> $GITHUB_OUTPUT
-          echo path_full=$path_full >> $GITHUB_OUTPUT
+          echo path_full=$path_parent/$path_full >> $GITHUB_OUTPUT
           echo title=$title >> $GITHUB_OUTPUT
           
       - name: Create Daily Note File (${{ steps.metadata.outputs.title }})
