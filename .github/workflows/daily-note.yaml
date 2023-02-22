@@ -40,6 +40,7 @@ jobs:
         run: |
           EMPTY_NOTE=$(cat << EOF
           # $TITLE
+          ![banner](https://picsum.photos/seed/$(date +%Y)-$(date +%B)-$(date +%d)/500/200)
           <!-- START doctoc -->
           <!-- END doctoc -->
           <!--- TODO: fill me out, if you have time today --->
