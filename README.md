@@ -4,7 +4,9 @@
 
 Day-to-day notes on the things I'm learning. I've been at this for more than a decade, but I'm still learning.
 
-Notes are generated daily. They are organized by in this repository in the form `<year>/<month>/<day of month>.md`. I may or may not fill them out.
+Note placeholders are generated daily, though it is not guaranteed that I will fill out each day.
+
+They are organized by in this repository in the form `<year>/<month>/<day of month>.md`.
 
 Topics of interest include:
 
@@ -12,3 +14,4 @@ Topics of interest include:
 * Kubernetes
 * Pentesting (things learned from CTFs)
 * Programming (most likely Golang, due to the CNCF ecosystem)
+* Anything else that comes up
