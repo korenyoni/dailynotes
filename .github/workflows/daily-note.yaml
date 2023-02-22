@@ -26,11 +26,10 @@ jobs:
       - name: Metadata
         id: metadata
         run: |
-          alias date="date -v+3d" # TODO: remove (for testing)
-          path_year="$(date +%Y)"
-          path_month="$path_year/$(date +%B)"
-          path_full="$path_month/$(date +%d).md"
-          title="$(date +%A), $(date +%B) $(date +%d), $(date +%Y)"
+          path_year="$(date -v+3d +%Y)"
+          path_month="$path_year/$(date -v+3d +%B)"
+          path_full="$path_month/$(date -v+3d +%d).md"
+          title="$(date -v+3d +%A), $(date -v+3d +%B) $(date -v+3d +%d), $(date -v+3d +%Y)"
 
           echo path_year=$path_year>> $GITHUB_OUTPUT
           echo path_month=$path_month>> $GITHUB_OUTPUT
@@ -44,10 +43,9 @@ jobs:
           PATH_FULL: ${{ steps.metadata.outputs.path_full }}
           TITLE: ${{ steps.metadata.outputs.title }}
         run: |
-          alias date="date -v+3d" # TODO: remove (for testing)
-          if [[ $(date +%A) == "Saturday" ]]; then
+          if [[ $(date -v+3d +%A) == "Saturday" ]]; then
             SHABBAT=$(cat << EOF
-          ### $(curl https://www.hebcal.com/hebcal\?v\=1\&cfg\=json\&s\=on\&year\=now\&start\=$(date +%Y)-$(date +%m)-$(date +%d)\&end\=$(date +%Y)-$(date +%m)-$(date +%d)\&geo\=none\&s\=on | jq -r '.items[].title')
+          ### $(curl https://www.hebcal.com/hebcal\?v\=1\&cfg\=json\&s\=on\&year\=now\&start\=$(date -v+3d +%Y)-$(date -v+3d +%m)-$(date -v+3d +%d)\&end\=$(date -v+3d +%Y)-$(date -v+3d +%m)-$(date -v+3d +%d)\&geo\=none\&s\=on | jq -r '.items[].title')
           :candle: :wine_glass: :bread: :wine_glass: :candle:
           EOF
             )
@@ -55,7 +53,7 @@ jobs:
 
           EMPTY_NOTE=$(cat << EOF
           # $TITLE
-          ![banner](https://picsum.photos/seed/$(date +%Y)-$(date +%B)-$(date +%d)/500/200)
+          ![banner](https://picsum.photos/seed/$(date -v+3d +%Y)-$(date -v+3d +%B)-$(date -v+3d +%d)/500/200)
           > _"$(curl https://zenquotes.io/api/today | jq -r '.[].q')"_
           <!-- START doctoc -->
           <!-- END doctoc -->
