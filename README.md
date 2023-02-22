@@ -6,8 +6,6 @@ Day-to-day notes on the things I'm learning. I've been at this for more than a d
 
 Note placeholders are generated daily, though it is not guaranteed that I will fill out each day.
 
-They are organized by in this repository in the form `<year>/<month>/<day of month>.md`.
-
 Topics of interest include:
 
 * AWS (usually things that pop up in my day job)
