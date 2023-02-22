@@ -35,15 +35,15 @@ jobs:
           PATH_FULL: ${{ steps.metadata.outputs.path_full }}
           TITLE: ${{ steps.metadata.outputs.title }}
         run: |
+          NOTE=$(cat << EOF
+          # $TITLE
+          <!--- TODO: fill me out, if you have time today --->
+          EOF
+          )
           # Create a folder for the current month and day, if it doesn't exist
           mkdir -p $PATH_PARENT
           if [[ ! -f $PATH_FULL ]]; then
             echo "Creating daily note: $PATH_FULL"
-            NOTE=$(cat << EOF
-            # $TITLE
-            <!--- TODO: fill me out, if you have time today --->
-            EOF
-            )
             echo "$NOTE" > $PATH_FULL
           else 
             echo "Daily note already exists: $PATH_FULL"
