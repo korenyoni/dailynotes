@@ -60,6 +60,9 @@ jobs:
           EOF
           )
 
+          # Create parent dir for the daily note, if it doesn't exist
+          mkdir -p $(dirname $PATH_FULL)
+
           # Create a README for the current year, if it doesn't exist
           cd $PATH_YEAR
           if [[ ! -f README.md ]]; then
@@ -80,7 +83,6 @@ jobs:
           fi
           cd -
 
-          mkdir -p $(dirname $PATH_FULL)
           if [[ ! -f $PATH_FULL ]]; then
             echo "Creating empty daily note: $PATH_FULL"
             echo "$EMPTY_NOTE" > $PATH_FULL
