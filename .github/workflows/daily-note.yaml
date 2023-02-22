@@ -39,7 +39,7 @@ jobs:
           mkdir -p $PATH_PARENT
           if [[ ! -f $PATH_FULL ]]; then
             echo "Creating daily note: $PATH_FULL"
-            NOTE=$(cat <<EOF
+            NOTE=$(cat << EOF
             # $TITLE
             <!--- TODO: fill me out, if you have time today --->
             EOF
