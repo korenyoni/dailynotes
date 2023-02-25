@@ -39,7 +39,7 @@ jobs:
         run: |
           if [[ $(date +%A) == "Saturday" ]]; then
             SHABBAT=$(cat << EOF
-          ### $(curl https://www.hebcal.com/hebcal\?v\=1\&cfg\=json\&s\=on\&year\=now\&start\=$(date +%Y)-$(date +%m)-$(date +%d)\&end\=$(date +%Y)-$(date +%m)-$(date +%d)\&geo\=none\&s\=on | jq -r '.items[].title')
+          ## $(curl https://www.hebcal.com/hebcal\?v\=1\&cfg\=json\&s\=on\&year\=now\&start\=$(date +%Y)-$(date +%m)-$(date +%d)\&end\=$(date +%Y)-$(date +%m)-$(date +%d)\&geo\=none\&s\=on | jq -r '.items[].title')
           :candle: :candle: :bread: :bread: :wine_glass:
           EOF
             )
@@ -51,7 +51,6 @@ jobs:
           > _"$(curl https://zenquotes.io/api/today | jq -r '.[].q')"_
           <!-- START doctoc -->
           <!-- END doctoc -->
-          ## Notes
           $SHABBAT
           <!--- TODO: fill me out, if you have time today (above this line)--->
           EOF
