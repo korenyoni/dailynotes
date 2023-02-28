@@ -69,5 +69,5 @@ jobs:
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: 'Adding daily note for ${{ steps.metadata.outputs.title }}'
+          message: 'Automated: daily note for ${{ steps.metadata.outputs.title }}'
           add: '*.md'
